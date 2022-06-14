@@ -3,11 +3,12 @@ import chalk from "chalk"
 import { timelineRepository } from "../repositories/timelineRepository.js";
 
 export async function publishPost(req, res) {
-  const { userId, link, description } = req.body;
+  const { user: { id } } = res.locals;
+  const { link, description } = req.body;
   //TODO: Pegar "userId" do midlleware de Token
 
   try {
-    await timelineRepository.insertPost(userId, link, description);
+    await timelineRepository.insertPost(id, link, description);
 
     res.sendStatus(201);
   } catch (e) {
