@@ -15,13 +15,14 @@ const signIn = async (req, res) => {
     if (!user) {
       return res.sendStatus(401);
     }
-  
+
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = uuid();
+      const body = { token, image: user.image }
       await db.query(`INSERT INTO sessions (token, "userId") 
       VALUES ($1, $2)
       `, [token, user.id])
-      return res.send(token);
+      return res.status(200).send(body);
     }
     res.sendStatus(401); // Unauthorized
   } catch (err) {
@@ -41,9 +42,9 @@ const signUp = async (req, res) => {
     SELECT * 
     FROM users 
     WHERE email=$1
-    `,[user.email]);
+    `, [user.email]);
 
-    if(existingUser.rowCount > 0){
+    if (existingUser.rowCount > 0) {
       return res.sendStatus(409).send("There is already a user registered with this email!");
     }
 
@@ -52,7 +53,7 @@ const signUp = async (req, res) => {
     await db.query(`
     INSERT INTO users (name,email,password,image)
     VALUES ($1,$2,$3,$4)
-    `,[user.name,user.email,passwordHash,user.image]);
+    `, [user.name, user.email, passwordHash, user.image]);
 
     res.sendStatus(201);
   } catch (err) {
@@ -61,5 +62,5 @@ const signUp = async (req, res) => {
   }
 }
 
-const modulesAuthController = { signUp,signIn };
+const modulesAuthController = { signUp, signIn };
 export default modulesAuthController;
