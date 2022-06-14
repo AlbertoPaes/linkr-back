@@ -13,6 +13,8 @@ server.use(cors());
 
 server.use(router);
 
+// Teste de primeiro commit
+
 const PORT = process.env.PORT;
 server.listen(PORT, () => {
   console.log(chalk.bold.green(`Listening on ${PORT}`));
