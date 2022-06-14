@@ -8,6 +8,6 @@ const userRouter = Router();
 
 const { signUp } = modulesSignUpController;
 
-userRouter.post("/signup", schemaValidator(userSchema), signUp);
+userRouter.post('/signup', schemaValidator(userSchema), signUp);
 
 export default userRouter;

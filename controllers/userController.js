@@ -14,7 +14,7 @@ const signUp = async (req, res) => {
     WHERE email=$1
     `,[user.email]);
 
-    if(existingUser.rowCount !== 0){
+    if(existingUser.rowCount > 0){
       return res.sendStatus(409);
     }
 
