@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import postRouter from "./postRouter.js";
+import postRouter from "./timelineRouter.js";
 
 const router = Router();
 

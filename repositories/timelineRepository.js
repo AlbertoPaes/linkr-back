@@ -10,6 +10,6 @@ async function insertPost(usersId, link, description) {
   );
 };
 
-export const postRepository = {
+export const timelineRepository = {
   insertPost
 };
