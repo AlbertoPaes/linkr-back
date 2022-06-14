@@ -44,7 +44,7 @@ const signUp = async (req, res) => {
     `,[user.email]);
 
     if(existingUser.rowCount > 0){
-      return res.sendStatus(409);
+      return res.sendStatus(409).send("There is already a user registered with this email!");
     }
 
     delete user.confirmPassword;
