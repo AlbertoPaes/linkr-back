@@ -1,4 +1,5 @@
 import db from "../config/db.js"
+import urlMetadata from "url-metadata"
 
 async function insertPost(usersId, link, description) {
   return db.query(
@@ -22,19 +23,6 @@ async function searchHashtags(name) {
   )
 };
 
-async function searchOnePost(userId) {
-  return db.query(
-    `SELECT 
-      *
-    FROM 
-      posts
-    WHERE 
-      "userId" = $1
-      ORDER BY id`,
-    [userId]
-  )
-};
-
 async function insertHashtag(name) {
   return db.query(
     `INSERT INTO 
@@ -55,10 +43,42 @@ async function relatePostHashtag(postId, hashtagId) {
   );
 };
 
+async function searchOnePost(userId) {
+  return db.query(
+    `SELECT 
+      *
+    FROM 
+      posts
+    WHERE 
+      "userId" = $1
+      ORDER BY id`,
+    [userId]
+  )
+};
+
+async function searchAllPosts() {
+  const result = db.query(
+    `SELECT 
+      p.id, p.link, p.description, u.name, u.image
+    FROM 
+      posts p
+      JOIN users u ON p."userId" = u.id
+    ORDER BY id DESC
+    LIMIT 20`
+  );
+  return result;
+};
+
+async function getMetada(link) {
+  return urlMetadata(link);
+}
+
 export const timelineRepository = {
   insertPost,
   searchHashtags,
   insertHashtag,
   relatePostHashtag,
-  searchOnePost
+  searchOnePost,
+  searchAllPosts,
+  getMetada
 };

@@ -37,3 +37,22 @@ export async function publishPost(req, res) {
     res.sendStatus(500);
   }
 };
+
+export async function getAllPosts(req, res) {
+  let posts = [];
+
+  try {
+    const { rows: allPosts } = await timelineRepository.searchAllPosts();
+
+    for (let post of allPosts) {
+      const urlMeta = await timelineRepository.getMetada(post.link);
+      const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+      posts.push({ ...post, urlTitle, urlImage, urlDescription });
+    }
+
+    res.status(200).send(posts);
+  } catch (e) {
+    console.log(chalk.red.bold(e));
+    res.sendStatus(500);
+  }
+};
