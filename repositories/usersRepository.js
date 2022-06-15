@@ -8,7 +8,7 @@ async function getUserById(id) {
 
 async function getPostsByUserId(id) {
     return db.query(`
-    SELECT u.name, u.image, p.description, p.link FROM posts p 
+    SELECT u.name, u.image, p.description, p.link, p."userId" FROM posts p 
     JOIN users u ON u.id = p."userId"
     WHERE "userId" = $1;`, [id])
 }
