@@ -10,6 +10,55 @@ async function insertPost(usersId, link, description) {
   );
 };
 
+async function searchHashtags(name) {
+  return db.query(
+    `SELECT 
+      *
+    FROM 
+      hashtags
+    WHERE 
+      name = $1`,
+    [name]
+  )
+};
+
+async function searchOnePost(userId) {
+  return db.query(
+    `SELECT 
+      *
+    FROM 
+      posts
+    WHERE 
+      "userId" = $1
+      ORDER BY id`,
+    [userId]
+  )
+};
+
+async function insertHashtag(name) {
+  return db.query(
+    `INSERT INTO 
+      hashtags (name)
+    VALUES 
+      ($1)`,
+    [name]
+  );
+};
+
+async function relatePostHashtag(postId, hashtagId) {
+  return db.query(
+    `INSERT INTO 
+      "postHashtag" ("postId", "hashtagId")
+    VALUES 
+      ($1, $2)`,
+    [postId, hashtagId]
+  );
+};
+
 export const timelineRepository = {
-  insertPost
+  insertPost,
+  searchHashtags,
+  insertHashtag,
+  relatePostHashtag,
+  searchOnePost
 };
