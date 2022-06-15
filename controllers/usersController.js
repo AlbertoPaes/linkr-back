@@ -7,11 +7,13 @@ export async function getUserPosts(req, res) {
     const {id} = req.params;
 
     try {
+
         const users = await usersRepository.getUserById(id);
 
         if (users.rowCount === 0) return res.status(404).send("User inexistent");
 
         const posts = await usersRepository.getPostsByUserId(users.rows[0].id);
+
         res.send(posts.rows);
     }
 
@@ -29,7 +31,6 @@ export async function searchUsers (req, res) {
         const user = await usersRepository.searchUser(name);
         res.send(user.rows);
     } 
-
 
     catch (error) {
         console.log(error);
