@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { publishPost } from "../controllers/timelineController.js";
+import { getAllPosts, publishPost } from "../controllers/timelineController.js";
 
 import schemaValidator from "../middlewares/schemaMiddleware.js";
 import validateToken from "../middlewares/tokenMiddleware.js";
@@ -10,5 +10,6 @@ const postRouter = Router();
 
 //TODO: Tem que colocar o middleware que valida o Token
 postRouter.post('/timeline', validateToken, schemaValidator(publishPostSchema), publishPost)
+postRouter.get('/timeline', validateToken, getAllPosts);
 
 export default postRouter;

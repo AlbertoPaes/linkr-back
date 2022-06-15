@@ -22,19 +22,6 @@ async function searchHashtags(name) {
   )
 };
 
-async function searchOnePost(userId) {
-  return db.query(
-    `SELECT 
-      *
-    FROM 
-      posts
-    WHERE 
-      "userId" = $1
-      ORDER BY id`,
-    [userId]
-  )
-};
-
 async function insertHashtag(name) {
   return db.query(
     `INSERT INTO 
@@ -55,10 +42,35 @@ async function relatePostHashtag(postId, hashtagId) {
   );
 };
 
+async function searchOnePost(userId) {
+  return db.query(
+    `SELECT 
+      *
+    FROM 
+      posts
+    WHERE 
+      "userId" = $1
+      ORDER BY id`,
+    [userId]
+  )
+};
+
+async function searchAllPosts() {
+  return db.query(
+    `SELECT 
+      *
+    FROM 
+      posts
+    ORDER BY id DESC
+    LIMIT 20`
+  )
+};
+
 export const timelineRepository = {
   insertPost,
   searchHashtags,
   insertHashtag,
   relatePostHashtag,
-  searchOnePost
+  searchOnePost,
+  searchAllPosts
 };

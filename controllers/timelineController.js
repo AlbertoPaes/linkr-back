@@ -37,3 +37,14 @@ export async function publishPost(req, res) {
     res.sendStatus(500);
   }
 };
+
+export async function getAllPosts(req, res) {
+
+  try {
+    const { rows: allPosts } = await timelineRepository.searchAllPosts();
+    res.status(200).send(allPosts);
+  } catch (e) {
+    console.log(chalk.red.bold(e));
+    res.sendStatus(500);
+  }
+};
