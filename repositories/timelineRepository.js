@@ -48,7 +48,7 @@ async function insertHashtag(name) {
 async function relatePostHashtag(postId, hashtagId) {
   return db.query(
     `INSERT INTO 
-      postHashtag ("postId", "hashtagId")
+      "postHashtag" ("postId", "hashtagId")
     VALUES 
       ($1, $2)`,
     [postId, hashtagId]

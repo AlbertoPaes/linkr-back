@@ -6,22 +6,30 @@ export async function publishPost(req, res) {
   const { user: { id: userId } } = res.locals;
   const { link, description } = req.body;
 
-  //TODO: TENHO Q SALVAR TODAS AS HASHTAGS DA DESCRIPTION E NAO SOMENTE UMA
-  const [hashtag] = /#\w+/g.exec(description);
-  const hashtagLower = hashtag.toLowerCase();
+  let hashtags = [];
+  const descriptionArr = description.split(" ");
+  const pattern = /#\w+/g;
+
+  for (let string of descriptionArr) {
+    if (pattern.test(string)) {
+      hashtags.push(string.toLowerCase());
+    }
+  };
 
   try {
     await timelineRepository.insertPost(userId, link, description);
 
     const { rows: posts } = await timelineRepository.searchOnePost(userId);
-    const [{ id: postId }] = posts;
+    const { id: postId } = posts[posts.length - 1];
 
-    const { rows: hashtags } = await timelineRepository.searchHashtags(hashtagLower);
-    const [hashtag] = hashtags;
-    if (!hashtag) await timelineRepository.insertHashtag(hashtagLower);
-
-    await timelineRepository.relatePostHashtag(postId,)
-
+    for (let value of hashtags) {
+      const { rows: hashtags } = await timelineRepository.searchHashtags(value);
+      const [hashtag] = hashtags;
+      if (!hashtag) await timelineRepository.insertHashtag(value);
+      const { rows: hashtagsAfter } = await timelineRepository.searchHashtags(value);
+      const [hashtagAfter] = hashtagsAfter;
+      await timelineRepository.relatePostHashtag(postId, hashtagAfter.id);
+    }
 
     res.sendStatus(201);
   } catch (e) {
