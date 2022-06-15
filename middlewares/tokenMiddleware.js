@@ -3,7 +3,7 @@ import db from "../config/db.js";
 const validateToken = async (req, res, next) => {
   const { authorization } = req.headers;
   const token = authorization?.replace("Bearer", "").trim();
-  if (!token) return res.status(401).send("No token."); // unauthorized
+  if (!token) return res.status(401).send("No token.");
 
   try {
     const { rows: sessions } = await db.query(`
@@ -15,7 +15,7 @@ const validateToken = async (req, res, next) => {
     if (!session) {
       return res.sendStatus(401);
     }
-  
+
     const { rows: users } = await db.query(`SELECT * 
     FROM users 
     WHERE id=$1
@@ -24,7 +24,7 @@ const validateToken = async (req, res, next) => {
     if (!user) {
       return res.sendStatus(401);
     }
-  
+
     res.locals.user = user;
     next();
   } catch (error) {
