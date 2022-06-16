@@ -4,7 +4,6 @@ import { hashtagsRepository } from "../repositories/hashtagsRepository.js";
 
 export async function getHashtagPosts(req, res) {
   const { hashtag } = req.params;
-  console.log(hashtag)
   const hashtagPosts = []
 
   try {
