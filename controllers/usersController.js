@@ -1,6 +1,5 @@
 import usersRepository from "../repositories/usersRepository.js";
 import { timelineRepository } from "../repositories/timelineRepository.js";
-import db from "./../config/db.js"
 
 export async function getUserPosts(req, res) {
 
@@ -23,10 +22,6 @@ export async function getUserPosts(req, res) {
           }
       
           res.status(200).send(posts);
-
-        // const posts = await usersRepository.getPostsByUserId(users.rows[0].id);
-
-        // res.send(posts.rows);
     }
 
     catch (error) {
