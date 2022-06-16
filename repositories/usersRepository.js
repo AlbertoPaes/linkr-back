@@ -17,10 +17,23 @@ async function searchUser(name) {
     return await db.query(`SELECT * FROM users WHERE name LIKE $1`,[`${name}%`]);
 }
 
+async function getAllPosts(id) {
+    const result = db.query(
+      `SELECT p.id, p.link, p.description, u.name, u.image
+      FROM posts p
+      JOIN users u ON p."userId" = u.id
+      WHERE p."userId" = $1
+      ORDER BY id DESC
+      LIMIT 20`,[id]
+    );
+    return result;
+  };
+
 const usersRepository = {
     getUserById,
     getPostsByUserId,
-    searchUser
+    searchUser,
+    getAllPosts
 };
 
 export default usersRepository;

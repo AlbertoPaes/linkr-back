@@ -1,8 +1,10 @@
 import usersRepository from "../repositories/usersRepository.js";
-
+import { timelineRepository } from "../repositories/timelineRepository.js";
 import db from "./../config/db.js"
 
 export async function getUserPosts(req, res) {
+
+    let posts = [];
 
     const {id} = req.params;
 
@@ -12,9 +14,19 @@ export async function getUserPosts(req, res) {
 
         if (users.rowCount === 0) return res.status(404).send("User inexistent");
 
-        const posts = await usersRepository.getPostsByUserId(users.rows[0].id);
+        const { rows: allPosts } = await usersRepository.getAllPosts(users.rows[0].id);
 
-        res.send(posts.rows);
+        for (let post of allPosts) {
+            const urlMeta = await timelineRepository.getMetada(post.link);
+            const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+            posts.push({ ...post, urlTitle, urlImage, urlDescription });
+          }
+      
+          res.status(200).send(posts);
+
+        // const posts = await usersRepository.getPostsByUserId(users.rows[0].id);
+
+        // res.send(posts.rows);
     }
 
     catch (error) {
