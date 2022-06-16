@@ -59,7 +59,7 @@ async function searchOnePost(userId) {
 async function searchAllPosts() {
   const result = db.query(
     `SELECT 
-      p.id, p.link, p.description, u.name, u.image
+      p.id, p.link, p.description, u.name, u.image, p."userId"
     FROM 
       posts p
       JOIN users u ON p."userId" = u.id

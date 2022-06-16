@@ -22,3 +22,13 @@ export async function getHashtagPosts(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function getHashtags(req, res) {
+  try {
+    const { rows: hashtags } = await hashtagsRepository.getHashtagsByQuantity();
+    res.status(200).send(hashtags);
+  } catch (e) {
+    console.log(chalk.red.bold(e));
+    res.sendStatus(500);
+  }
+}
