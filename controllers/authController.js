@@ -8,7 +8,7 @@ const signIn = async (req, res) => {
 
   try {
 
-    const { rows: users } = await authRepository.getByEmail(email);
+    const { rows: users } = await urlsRepository.getByEmail(email);
 
     const [user] = users
     if (!user) {
