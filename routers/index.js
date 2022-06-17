@@ -13,6 +13,6 @@ router.use(usersRouter);
 router.use(timelineRouter);
 
 router.use(hashtagsPosts);
-router.use(postsRouter)
+router.use(postsRouter);
 
 export default router;

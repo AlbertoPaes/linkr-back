@@ -5,7 +5,7 @@ import chalk from "chalk";
 export async function editPost(req, res) {
     const { user: { id: userId } } = res.locals;
     const { description } = req.body;
-    const {id} = req.params;
+    const { id } = req.params;
 
     let hashtags = [];
     const descriptionArr = description.split(" ");

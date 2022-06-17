@@ -17,7 +17,7 @@ const signIn = async (req, res) => {
 
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = uuid();
-      const body = { token, image: user.image }
+      const body = { token, image: user.image, id: user.id }
       await urlsRepository.createSession(token, user.id);
       return res.status(200).send(body);
     }
