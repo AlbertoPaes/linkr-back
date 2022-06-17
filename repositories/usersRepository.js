@@ -1,9 +1,7 @@
 import db from "./../config/db.js";
 
 async function getUserById(id) {
-    // return db.query(`SELECT * FROM users`);
     return db.query(`SELECT * FROM users WHERE id = $1`, [id]);
-
 };
 
 async function getPostsByUserId(id) {
@@ -14,7 +12,8 @@ async function getPostsByUserId(id) {
 }
 
 async function searchUser(name) {
-    return await db.query(`SELECT * FROM users WHERE name LIKE $1`,[`${name}%`]);
+    return await db.query(`SELECT u.id, u.name, u.image 
+    FROM users u WHERE name LIKE $1`,[`${name}%`]);
 }
 
 async function getAllPosts(id) {
