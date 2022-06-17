@@ -26,7 +26,7 @@ export async function getUserPosts(req, res) {
 
     catch (error) {
         console.log(error);
-        return res.sendStatus(500); // server error
+        return res.sendStatus(500); 
     }
 }
 
@@ -41,6 +41,6 @@ export async function searchUsers (req, res) {
 
     catch (error) {
         console.log(error);
-        return res.sendStatus(500); // server error
+        return res.sendStatus(500); 
     }
 }

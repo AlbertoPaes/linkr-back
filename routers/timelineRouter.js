@@ -8,7 +8,6 @@ import { publishPostSchema } from "../schemas/timelineSchema.js";
 
 const postRouter = Router();
 
-//TODO: Tem que colocar o middleware que valida o Token
 postRouter.post('/timeline', validateToken, schemaValidator(publishPostSchema), publishPost)
 postRouter.get('/timeline', validateToken, getAllPosts);
 
