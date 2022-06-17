@@ -11,7 +11,8 @@ async function getByHashtag(hashtag) {
       JOIN "posts" p ON ph."postId" = p.id
       JOIN "users" u ON p."userId" = u.id
     WHERE 
-      h.name=$1`,
+      h.name=$1 
+    ORDER BY p.id DESC`,
     [`#${hashtag}`]
   );
 };
