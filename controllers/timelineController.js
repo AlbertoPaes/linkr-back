@@ -49,7 +49,7 @@ export async function getAllPosts(req, res) {
       const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
       posts.push({ ...post, urlTitle, urlImage, urlDescription });
     }
-
+    console.log(posts);
     res.status(200).send(posts);
   } catch (e) {
     console.log(chalk.red.bold(e));

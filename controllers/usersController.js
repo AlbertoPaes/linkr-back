@@ -32,7 +32,7 @@ export async function getUserPosts(req, res) {
 
 export async function searchUsers (req, res) {
 
-    const {name} = req.body;
+    const {name} = req.params; 
 
     try {
         const user = await usersRepository.searchUser(name);
