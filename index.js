@@ -1,4 +1,4 @@
-import express, {json} from 'express';
+import express, { json } from 'express';
 import chalk from 'chalk';
 import cors from 'cors';
 import dotenv from 'dotenv';
