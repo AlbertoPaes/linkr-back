@@ -70,7 +70,7 @@ async function searchAllPosts() {
 };
 
 async function getMetada(link) {
-  return urlMetadata(link);
+  return urlMetadata(link, { timeout: 1000 });
 }
 
 export const timelineRepository = {
