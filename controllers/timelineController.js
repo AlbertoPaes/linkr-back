@@ -56,8 +56,6 @@ export async function getAllPosts(req, res) {
       }
 
     }
-
-
     res.status(200).send(posts);
   } catch (e) {
     console.log(chalk.red.bold(e));
