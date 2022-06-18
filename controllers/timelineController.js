@@ -45,10 +45,18 @@ export async function getAllPosts(req, res) {
     const { rows: allPosts } = await timelineRepository.searchAllPosts();
 
     for (let post of allPosts) {
-      const urlMeta = await timelineRepository.getMetada(post.link);
-      const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
-      posts.push({ ...post, urlTitle, urlImage, urlDescription });
+      try {
+        const urlMeta = await timelineRepository.getMetada(post.link);
+        const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+        posts.push({ ...post, urlTitle, urlImage, urlDescription });
+      } catch (e) {
+        const urlMeta = { title: "", image: "", description: "" }
+        const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+        posts.push({ ...post, urlTitle, urlImage, urlDescription });
+      }
+
     }
+
 
     res.status(200).send(posts);
   } catch (e) {
