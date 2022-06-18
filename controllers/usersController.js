@@ -5,11 +5,11 @@ export async function getUserPosts(req, res) {
 
     let posts = [];
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     try {
 
-        const users = await usersRepository.getUserById(id);
+        const users = await usersRepository.getUserById(id * 1);
 
         if (users.rowCount === 0) return res.status(404).send("User inexistent");
 
@@ -19,9 +19,9 @@ export async function getUserPosts(req, res) {
             const urlMeta = await timelineRepository.getMetada(post.link);
             const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
             posts.push({ ...post, urlTitle, urlImage, urlDescription });
-          }
-      
-          res.status(200).send(posts);
+        }
+
+        res.status(200).send(posts);
     }
 
     catch (error) {
@@ -30,14 +30,14 @@ export async function getUserPosts(req, res) {
     }
 }
 
-export async function searchUsers (req, res) {
+export async function searchUsers(req, res) {
 
-    const {name} = req.body;
+    const { name } = req.body;
 
     try {
         const user = await usersRepository.searchUser(name);
         res.send(user.rows);
-    } 
+    }
 
     catch (error) {
         console.log(error);

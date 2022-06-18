@@ -43,11 +43,11 @@ async function relatePostHashtag(postId, hashtagId) {
   );
 };
 
-async function deleteRelatePostHashtag(postId, hashtagId) {
+async function deleteRelatePostHashtag(postId) {
   return db.query(
     `DELETE FROM "postHashtag"
-    WHERE "postId"=$1 AND "hashtagId" = $2`,
-    [postId, hashtagId]
+    WHERE "postId"=$1`,
+    [postId]
   )
 }
 

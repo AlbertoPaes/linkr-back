@@ -19,6 +19,7 @@ export async function editPost(req, res) {
 
     try {
         await postsRepository.editPost(userId, description, id);
+        await timelineRepository.deleteRelatePostHashtag(id * 1)
 
         const { rows: posts } = await timelineRepository.searchOnePost(userId);
         const { id: postId } = posts[posts.length - 1];
@@ -29,7 +30,6 @@ export async function editPost(req, res) {
             if (!hashtag) await timelineRepository.insertHashtag(value);
             const { rows: hashtagsAfter } = await timelineRepository.searchHashtags(value);
             const [hashtagAfter] = hashtagsAfter;
-            await timelineRepository.deleteRelatePostHashtag(postId, hashtag.id)
             await timelineRepository.relatePostHashtag(postId, hashtagAfter.id);
         }
 
