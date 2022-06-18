@@ -39,3 +39,21 @@ export async function editPost(req, res) {
         res.sendStatus(500);
     }
 };
+
+export async function deletePost(req, res){
+    const {id} = req.params;
+    const { user: { id: userId } } = res.locals;
+    
+    try {
+        const {rows: post} = await postsRepository.getPostByPostId(id*1)
+        if(!post[0]) return res.status(404).send('This post does not exist')
+        if(userId !== post[0].userId) return res.status(401).send("This post is not yours")
+    
+        await postsRepository.deletePost(userId, id*1)
+        res.sendStatus(200);
+        
+    } catch (e) {
+        console.log(chalk.red.bold(e));
+        res.sendStatus(500);
+    }
+}
