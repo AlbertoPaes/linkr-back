@@ -43,6 +43,14 @@ async function relatePostHashtag(postId, hashtagId) {
   );
 };
 
+async function deleteRelatePostHashtag(postId, hashtagId) {
+  return db.query(
+    `DELETE FROM "postHashtag"
+    WHERE "postId"=$1 AND "hashtagId" = $2`,
+    [postId, hashtagId]
+  )
+}
+
 async function searchOnePost(userId) {
   return db.query(
     `SELECT 
@@ -78,6 +86,7 @@ export const timelineRepository = {
   searchHashtags,
   insertHashtag,
   relatePostHashtag,
+  deleteRelatePostHashtag,
   searchOnePost,
   searchAllPosts,
   getMetada

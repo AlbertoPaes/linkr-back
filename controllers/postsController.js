@@ -29,6 +29,7 @@ export async function editPost(req, res) {
             if (!hashtag) await timelineRepository.insertHashtag(value);
             const { rows: hashtagsAfter } = await timelineRepository.searchHashtags(value);
             const [hashtagAfter] = hashtagsAfter;
+            await timelineRepository.deleteRelatePostHashtag(postId, hashtag.id)
             await timelineRepository.relatePostHashtag(postId, hashtagAfter.id);
         }
 
