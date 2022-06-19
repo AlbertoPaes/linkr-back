@@ -24,7 +24,7 @@ async function getAllPosts(id) {
       JOIN users u ON p."userId" = u.id
       WHERE p."userId" = $1
       ORDER BY id DESC
-      LIMIT 20`, [id * 1]
+      LIMIT 20`, [id]
     );
     return result;
 };
