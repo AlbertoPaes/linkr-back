@@ -7,6 +7,6 @@ const likeRouter = Router();
 const { getLikes,addOrRemoveLike } = modulesLikeController;
 
 likeRouter.get("/likes/:postId", validadeToken, getLikes);
-likeRouter.patch("/likes/:postId", validadeToken, addOrRemoveLike);
+likeRouter.post("/likes/:postId", validadeToken, addOrRemoveLike);
 
 export default likeRouter;
