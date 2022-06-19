@@ -31,6 +31,7 @@ const addOrRemoveLike = async (req, res) => {
       res.sendStatus(200);
       return;
     }
+    console.log("deploy heroku like");
 
     await likeRepository.addLike(user.id,postId);
     res.sendStatus(201);
