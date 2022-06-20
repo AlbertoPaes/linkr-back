@@ -2,7 +2,7 @@ import db from "../config/db.js";
 
 async function getLikesByPostId(postId){
   return db.query(`
-    SELECT u.name
+    SELECT u.name, u.id AS "userId"
     FROM users u
     JOIN "postLike" L
     ON L."userId" = u.id
