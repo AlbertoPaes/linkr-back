@@ -17,14 +17,13 @@ async function searchUser(name) {
 }
 
 async function getAllPosts(id) {
-    console.log({ id })
     const result = db.query(
         `SELECT p.id, p."userId", p.link, p.description, u.name, u.image
       FROM posts p
       JOIN users u ON p."userId" = u.id
       WHERE p."userId" = $1
       ORDER BY id DESC
-      LIMIT 20`, [id * 1]
+      LIMIT 20`, [id]
     );
     return result;
 };
