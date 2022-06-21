@@ -28,6 +28,13 @@ CREATE TABLE "postLike" (
   "postId" integer NOT NULL REFERENCES "posts"("id")
 );
 
+CREATE TABLE comments (
+  id serial PRIMARY KEY,
+  "userId" integer NOT NULL REFERENCES "users"("id"),
+  "postId" integer NOT NULL REFERENCES "posts"("id"),
+  comment text NOT NULL
+);
+
 CREATE TABLE hashtags (
   id serial PRIMARY KEY,
   name text NOT NULL,
