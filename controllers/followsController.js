@@ -3,6 +3,8 @@ import followsRepository from "./../repositories/followsRepository.js"
 export async function getFollows (req, res) {
 
     const {userId, followId} = req.params;
+
+    if (userId === followId) return res.status(200).send("Myself");
     
     const checkUser = await followsRepository.getFollowsByUserId(userId);
 
@@ -21,8 +23,6 @@ export async function postFollow (req, res) {
     const {userId, followId} = req.body;
 
     const postFollow = await followsRepository.postFollow(userId, followId);
-
-    console.log(postFollow.rows);
 
     res.sendStatus(201);
     

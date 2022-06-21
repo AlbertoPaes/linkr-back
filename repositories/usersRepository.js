@@ -17,7 +17,6 @@ async function searchUser(name) {
 }
 
 async function getAllPosts(id) {
-    console.log({ id })
     const result = db.query(
         `SELECT p.id, p."userId", p.link, p.description, u.name, u.image
       FROM posts p
