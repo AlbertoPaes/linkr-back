@@ -20,12 +20,18 @@ async function deleteFollow (userId, followId) {
     WHERE "userId"=$1 AND "followId"=$2`,[userId,followId])
 }
  
+async function searchFollowsById (whereClauses, userId, array) {
+    return await db.query(`
+    SELECT * FROM follows WHERE "userId"=$1 AND 
+    (${whereClauses})`,[userId,...array]);
+}
 
 const followsRepository = {
     getFollowsByUserId,
     checkFollow,
     postFollow,
-    deleteFollow
+    deleteFollow,
+    searchFollowsById
 };
 
 export default followsRepository;
