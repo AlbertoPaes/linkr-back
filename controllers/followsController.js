@@ -14,7 +14,7 @@ export async function getFollows (req, res) {
 
     res.status(200).send(true);
 
-    }
+}
 
 export async function postFollow (req, res) {
 
@@ -22,6 +22,18 @@ export async function postFollow (req, res) {
 
     const postFollow = await followsRepository.postFollow(userId, followId);
 
-    res.sendStatus(200);
+    console.log(postFollow.rows);
+
+    res.sendStatus(201);
     
+}
+
+export async function deleteFollow (req, res) {
+
+    const {userId, followId} = req.params;
+    
+    await followsRepository.deleteFollow(userId, followId);
+
+    res.sendStatus(200);
+
 }

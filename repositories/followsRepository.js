@@ -14,11 +14,18 @@ async function postFollow (userId, followId) {
     VALUES ($1, $2)`,[userId, followId]);
 }
 
+async function deleteFollow (userId, followId) {
+    return await db.query(`
+    DELETE FROM follows 
+    WHERE "userId"=$1 AND "followId"=$2`,[userId,followId])
+}
+ 
 
 const followsRepository = {
     getFollowsByUserId,
+    checkFollow,
     postFollow,
-    checkFollow
+    deleteFollow
 };
 
 export default followsRepository;
