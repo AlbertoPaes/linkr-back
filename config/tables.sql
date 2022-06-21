@@ -46,3 +46,10 @@ CREATE TABLE "postHashtag" (
   "postId" integer NOT NULL REFERENCES "posts"("id"),
   "hashtagId" integer NOT NULL REFERENCES "hashtags"("id")
 );
+
+CREATE TABLE follows (
+    id serial PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "followId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "createdAt" timestamp DEFAULT NOW()
+);
