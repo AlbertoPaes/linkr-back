@@ -2,14 +2,19 @@ import followsRepository from "./../repositories/followsRepository.js"
 
 export async function getFollows (req, res) {
 
-    const {id} = req.params;
+    const {userId, followId} = req.params;
     
-    const follows = await followsRepository.getFollowsByUserId(id);
+    const checkUser = await followsRepository.getFollowsByUserId(userId);
 
-    if (follows.rowCount === 0) return res.sendStatus(404);
+    if (checkUser.rowCount === 0) return res.status(200).send(false);
 
-    res.send(follows.rows);
-}
+    const checkFollow = await followsRepository.checkFollow(followId);
+
+    if (checkFollow.rowCount === 0) return res.status(200).send(false);
+
+    res.status(200).send(true);
+
+    }
 
 export async function postFollow (req, res) {
 

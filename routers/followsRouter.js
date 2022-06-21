@@ -5,7 +5,7 @@ const followsRouter = Router();
 
 // COLOCAR OS MIDDLEWARES DE VALIDAÇÃO
 
-followsRouter.get('/follows/:id', getFollows);
+followsRouter.get('/follows/:userId/:followId', getFollows);
 followsRouter.post('/follows', postFollow);
 
 export default followsRouter;
