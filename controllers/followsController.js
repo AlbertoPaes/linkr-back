@@ -15,7 +15,6 @@ export async function getFollows (req, res) {
 
     if (checkFollow.rowCount === 0) return res.status(200).send(false);
     
-
     res.status(200).send(true);
 }
 
