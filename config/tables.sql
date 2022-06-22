@@ -46,3 +46,10 @@ CREATE TABLE follows (
     "followId" INTEGER NOT NULL REFERENCES "users"("id"),
     "createdAt" timestamp DEFAULT NOW()
 );
+
+CREATE TABLE resposts (
+  id serial PRIMARY KEY,
+  "userId" integer NOT NULL REFERENCES "users"("id"),
+  "postId" integer NOT NULL REFERENCES "posts"("id"),
+  "createdAt" timestamp DEFAULT NOW()
+);
