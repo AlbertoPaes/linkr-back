@@ -1,6 +1,7 @@
 import chalk from "chalk"
 
 import { timelineRepository } from "../repositories/timelineRepository.js";
+import followsRepository from "../repositories/followsRepository.js"
 
 export async function publishPost(req, res) {
   const { user: { id: userId } } = res.locals;
@@ -62,3 +63,50 @@ export async function getAllPosts(req, res) {
     res.sendStatus(500);
   }
 };
+
+export async function getAllPostsByFollows(req, res) {
+  let posts = [];
+  const { user: { id: userId } } = res.locals;
+
+  try {
+    const { rows: allFollows } = await followsRepository.getFollowsByUserId(userId);
+    if (allFollows.length === 0) return res.status(200).send(false)
+    const { rows: allPosts } = await timelineRepository.getFollowsByUserId(userId);
+
+    for (let post of allPosts) {
+      try {
+        const urlMeta = await timelineRepository.getMetada(post.link);
+        const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+        posts.push({ ...post, urlTitle, urlImage, urlDescription });
+      } catch (e) {
+        const urlMeta = { title: "", image: "", description: "" }
+        const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+        posts.push({ ...post, urlTitle, urlImage, urlDescription });
+      }
+
+    }
+    res.status(200).send(posts);
+  } catch (e) {
+    console.log(chalk.red.bold(e));
+    res.sendStatus(500);
+  }
+};
+
+// export async function getAllPostsByFollows(req, res) {
+//   const { user: { id: userId } } = res.locals;
+//   const postFollowes = []
+
+//   try {
+//     const { rows: allFollows } = await followsRepository.getFollowsByUserId(userId);
+
+//     for (let user of allFollows) {
+//       const { followId } = user;
+//       const { rows: followPosts } = await timelineRepository.searchOnePost(followId);
+//       postFollowes.push(followPosts);
+//     }
+//     res.status(200).send(postFollowes);
+//   } catch (e) {
+//     console.log(chalk.red.bold(e));
+//     res.sendStatus(500);
+//   }
+// };

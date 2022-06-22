@@ -8,25 +8,28 @@ async function editPost(usersId, description, id) {
     );
 };
 
-async function getPostByPostId(id){
+async function getPostByPostId(id) {
     const post = db.query(
         `SELECT * FROM posts
-        WHERE id = $1;`,[id]
+        WHERE id = $1;`, [id]
     );
     return post;
 }
 
-async function deletePost(userId, id){
+async function deletePost(userId, id) {
     db.query(
-        `DELETE FROM "postHashtag"
-        WHERE "postId" = $1`,[id]);
+        `DELETE FROM comments
+        WHERE "postId" = $1`, [id]);
     db.query(
         `DELETE FROM "postLike"
-        WHERE "postId" = $1`,[id]);
+            WHERE "postId" = $1`, [id]);
+    db.query(
+        `DELETE FROM "postHashtag"
+        WHERE "postId" = $1`, [id]);
     db.query(
         `DELETE FROM posts
         WHERE "userId" = $1 AND id = $2`
-        ,[userId, id]);
+        , [userId, id]);
 }
 
 export const postsRepository = {

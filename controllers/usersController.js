@@ -26,13 +26,27 @@ export async function getUserPosts(req, res) {
 
     catch (error) {
         console.log(error);
-        return res.sendStatus(500); 
+        return res.sendStatus(500);
+    }
+}
+
+export async function getUserName(req, res) {
+    const { id } = req.params;
+
+    try {
+        const { rows: user } = await usersRepository.getUserById(id * 1);
+        res.status(200).send(user);
+    }
+
+    catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
     }
 }
 
 export async function searchUsers(req, res) {
 
-    const {id, name} = req.params; 
+    const { id, name } = req.params;
 
     try {
         const user = await usersRepository.searchUser(name);
@@ -41,6 +55,6 @@ export async function searchUsers(req, res) {
 
     catch (error) {
         console.log(error);
-        return res.sendStatus(500); 
+        return res.sendStatus(500);
     }
 }
