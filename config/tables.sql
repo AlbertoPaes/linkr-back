@@ -18,7 +18,7 @@ CREATE TABLE posts (
   id serial PRIMARY KEY,
   "userId" integer NOT NULL REFERENCES "users"("id"),
   link text NOT NULL,
-  description text,
+  description varChar(160),
   "createdAt" timestamp DEFAULT NOW()
 );
 

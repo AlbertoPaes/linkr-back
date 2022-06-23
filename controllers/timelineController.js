@@ -111,3 +111,17 @@ export async function getAllPostsByFollows(req, res) {
 //     res.sendStatus(500);
 //   }
 // };
+
+export async function getNewPostsByFollows(req,res){
+  const { user: { id: userId } } = res.locals;
+  const {time} = req.body;
+  console.log("🚀 ~ file: timelineController.js ~ line 118 ~ getNewPosts ~ time1", time)
+
+  try {
+    const {rows: newPosts} = await timelineRepository.getNewPosts(userId, time)
+    res.send(newPosts)
+  } catch (e) {
+    console.log(chalk.red.bold(e));
+    res.sendStatus(500)
+  }
+};
