@@ -8,9 +8,9 @@ import { publishPostSchema } from "../schemas/timelineSchema.js";
 
 const postRouter = Router();
 
-postRouter.post('/timeline', validateToken, schemaValidator(publishPostSchema), publishPost)
+postRouter.post('/timeline', validateToken, schemaValidator(publishPostSchema), publishPost);
 postRouter.get('/timeline', validateToken, getAllPosts);
-postRouter.get('/timeline/:userId', validateToken, getAllPostsByFollows)
-postRouter.get('/new', validateToken, getNewPostsByFollows)
+postRouter.get('/timeline/:userId', validateToken, getAllPostsByFollows);
+postRouter.post('/new', validateToken, getNewPostsByFollows);
 
 export default postRouter;
