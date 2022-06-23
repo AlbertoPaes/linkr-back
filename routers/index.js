@@ -8,6 +8,7 @@ import postsRouter from "./postsRouter.js";
 import likeRouter from "./likeRouter.js";
 import commentsRouter from "./commentsRouter.js";
 import followsRouter from "./followsRouter.js";
+import rePostRouter from './rePostRouter.js';
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use(postsRouter);
 router.use(likeRouter);
 router.use(commentsRouter);
 router.use(followsRouter);
+router.use(rePostRouter);
 
 export default router;

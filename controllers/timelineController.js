@@ -22,6 +22,7 @@ export async function publishPost(req, res) {
 
     const { rows: posts } = await timelineRepository.searchOnePost(userId);
     const { id: postId } = posts[posts.length - 1];
+    console.log(postId);
 
     for (let value of hashtags) {
       const { rows: hashtags } = await timelineRepository.searchHashtags(value);

@@ -25,7 +25,8 @@ CREATE TABLE posts (
 CREATE TABLE "postLike" (
   id serial PRIMARY KEY,
   "userId" integer NOT NULL REFERENCES "users"("id"),
-  "postId" integer NOT NULL REFERENCES "posts"("id")
+  "postId" integer NOT NULL REFERENCES "posts"("id"),
+  "createdAt" timestamp DEFAULT NOW()
 );
 
 CREATE TABLE comments (
@@ -44,7 +45,8 @@ CREATE TABLE hashtags (
 CREATE TABLE "postHashtag" (
   id serial PRIMARY KEY,
   "postId" integer NOT NULL REFERENCES "posts"("id"),
-  "hashtagId" integer NOT NULL REFERENCES "hashtags"("id")
+  "hashtagId" integer NOT NULL REFERENCES "hashtags"("id"),
+  "createdAt" timestamp DEFAULT NOW()
 );
 
 CREATE TABLE follows (
@@ -52,4 +54,11 @@ CREATE TABLE follows (
     "userId" INTEGER NOT NULL REFERENCES "users"("id"),
     "followId" INTEGER NOT NULL REFERENCES "users"("id"),
     "createdAt" timestamp DEFAULT NOW()
+);
+
+CREATE TABLE "rePosts" (
+  id serial PRIMARY KEY,
+  "userId" integer NOT NULL REFERENCES "users"("id"),
+  "postId" integer NOT NULL REFERENCES "posts"("id"),
+  "createdAt" timestamp DEFAULT NOW()
 );
