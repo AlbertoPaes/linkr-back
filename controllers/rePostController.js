@@ -27,6 +27,7 @@ const makeRePost = async (req,res) => {
 
     if(postExist.rows[0].userId === user.id){
       res.status(403).send("It's not possible to repost a post you created");
+      return;
     }
 
     await rePostRepository.insertRePost(postId,user.id);
