@@ -7,6 +7,7 @@ import timelineRouter from './timelineRouter.js'
 import postsRouter from "./postsRouter.js";
 import likeRouter from "./likeRouter.js";
 import followsRouter from "./followsRouter.js";
+import rePostRouter from './rePostRouter.js';
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use(hashtagsPosts);
 router.use(postsRouter);
 router.use(likeRouter);
 router.use(followsRouter);
+router.use(rePostRouter);
 
 export default router;
