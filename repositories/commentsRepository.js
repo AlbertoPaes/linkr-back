@@ -22,8 +22,6 @@ async function getComentsByPostId(postId) {
     [postId]);
 };
 
-
-
 export const commentsRepository = {
   publishComments,
   getComentsByPostId

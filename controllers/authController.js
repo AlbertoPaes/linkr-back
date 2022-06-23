@@ -2,12 +2,10 @@ import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 import { urlsRepository } from "../repositories/authRepository.js";
 
-
 const signIn = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-
     const { rows: users } = await urlsRepository.getByEmail(email);
 
     const [user] = users
@@ -21,7 +19,7 @@ const signIn = async (req, res) => {
       await urlsRepository.createSession(token, user.id);
       return res.status(200).send(body);
     }
-    res.sendStatus(401); // Unauthorized
+    res.sendStatus(401);
   } catch (err) {
     console.log("Error logging in user.", err);
     res.status(500).send("Error logging in user.");

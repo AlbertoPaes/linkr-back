@@ -5,8 +5,6 @@ import validateToken from "../middlewares/tokenMiddleware.js";
 
 const followsRouter = Router();
 
-// COLOCAR OS MIDDLEWARES DE VALIDAÇÃO
-
 followsRouter.get('/follows/:userId/:followId', validateToken, getFollows);
 followsRouter.get('/follows/search/:name/:userId', validateToken, searchFollows);
 followsRouter.post('/follows', validateToken, postFollow);

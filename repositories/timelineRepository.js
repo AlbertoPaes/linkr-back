@@ -81,19 +81,6 @@ async function getMetada(link) {
   return urlMetadata(link, { timeout: 1000 });
 };
 
-// async function getFollowsByUserId(userId) {
-//   return await db.query(
-//     `SELECT 
-//       f."followId", 
-//       p.id, p.link, p.description, u.name, u.image, p."userId"
-//     FROM 
-//       follows f
-//       JOIN posts p ON f."followId" = p."userId"
-//       JOIN users u ON p."userId" = u.id
-//     WHERE f."userId" = $1`
-//     , [userId]);
-// }
-
 async function getFollowsByUserId(userId) {
   return await db.query(
     `SELECT 
@@ -102,16 +89,15 @@ async function getFollowsByUserId(userId) {
     FROM 
       posts p
       JOIN users u ON p."userId" = u.id
-      LEFT JOIN  follows f ON  p."userId" = f."followId" AND p."userId" != $1
-    WHERE f."userId" = $1 OR p."userId" = $1
+      JOIN  follows f ON  p."userId" = f."followId"
+    WHERE f."userId" = $1
     ORDER BY id DESC
     `
     , [userId]);
 };
 
 async function getNewPosts(userId, time){
-  console.log("🚀 ~ file: timelineRepository.js ~ line 113 ~ getNewPosts ~ userId", userId)
-  console.log("🚀 ~ file: timelineRepository.js ~ line 113 ~ getNewPosts ~ time2", time)
+
   return await db.query(
     `SELECT 
       f."followId", 
@@ -120,7 +106,7 @@ async function getNewPosts(userId, time){
       posts p
       JOIN users u ON p."userId" = u.id
       LEFT JOIN  follows f ON  p."userId" = f."followId" AND p."userId" != $1
-    WHERE (f."userId" = $1 OR p."userId" = $1) AND p."createdAt" > $2
+    WHERE f."userId" = $1 AND p."createdAt" > $2
     ORDER BY id DESC
     `
     , [userId, time]);
