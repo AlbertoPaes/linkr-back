@@ -22,6 +22,7 @@ export async function publishPost(req, res) {
 
     const { rows: posts } = await timelineRepository.searchOnePost(userId);
     const { id: postId } = posts[posts.length - 1];
+    console.log(postId);
 
     for (let value of hashtags) {
       const { rows: hashtags } = await timelineRepository.searchHashtags(value);
@@ -89,5 +90,18 @@ export async function getAllPostsByFollows(req, res) {
   } catch (e) {
     console.log(chalk.red.bold(e));
     res.sendStatus(500);
+  }
+};
+
+export async function getNewPostsByFollows(req, res) {
+  const { user: { id: userId } } = res.locals;
+  const { time } = req.body;
+
+  try {
+    const { rows: newPosts } = await timelineRepository.getNewPosts(userId, time)
+    res.send(newPosts)
+  } catch (e) {
+    console.log(chalk.red.bold(e));
+    res.sendStatus(500)
   }
 };

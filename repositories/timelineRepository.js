@@ -96,6 +96,23 @@ async function getFollowsByUserId(userId) {
     , [userId]);
 };
 
+async function getNewPosts(userId, time){
+  console.log("🚀 ~ file: timelineRepository.js ~ line 113 ~ getNewPosts ~ userId", userId)
+  console.log("🚀 ~ file: timelineRepository.js ~ line 113 ~ getNewPosts ~ time2", time)
+  return await db.query(
+    `SELECT 
+      f."followId", 
+      p.id, p.link, p.description, u.name, u.image, p."userId"
+    FROM 
+      posts p
+      JOIN users u ON p."userId" = u.id
+      LEFT JOIN  follows f ON  p."userId" = f."followId" AND p."userId" != $1
+    WHERE (f."userId" = $1 OR p."userId" = $1) AND p."createdAt" > $2
+    ORDER BY id DESC
+    `
+    , [userId, time]);
+}
+
 
 export const timelineRepository = {
   insertPost,
@@ -106,5 +123,6 @@ export const timelineRepository = {
   searchOnePost,
   searchAllPosts,
   getMetada,
-  getFollowsByUserId
+  getFollowsByUserId,
+  getNewPosts
 };
