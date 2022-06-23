@@ -94,11 +94,11 @@ export async function getAllPostsByFollows(req, res) {
 };
 
 export async function getNewPostsByFollows(req, res) {
-  const { user: { id: userId } } = res.locals;
   const { time } = req.body;
+  const { user: { id: userId } } = res.locals;
 
   try {
-    const { rows: newPosts } = await timelineRepository.getNewPosts(userId, time)
+    const { rows: newPosts } = await timelineRepository.getNewPosts(userId, time);
     res.send(newPosts)
   } catch (e) {
     console.log(chalk.red.bold(e));
