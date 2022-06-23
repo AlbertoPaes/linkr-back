@@ -91,22 +91,3 @@ export async function getAllPostsByFollows(req, res) {
     res.sendStatus(500);
   }
 };
-
-// export async function getAllPostsByFollows(req, res) {
-//   const { user: { id: userId } } = res.locals;
-//   const postFollowes = []
-
-//   try {
-//     const { rows: allFollows } = await followsRepository.getFollowsByUserId(userId);
-
-//     for (let user of allFollows) {
-//       const { followId } = user;
-//       const { rows: followPosts } = await timelineRepository.searchOnePost(followId);
-//       postFollowes.push(followPosts);
-//     }
-//     res.status(200).send(postFollowes);
-//   } catch (e) {
-//     console.log(chalk.red.bold(e));
-//     res.sendStatus(500);
-//   }
-// };
