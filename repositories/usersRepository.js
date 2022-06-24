@@ -26,7 +26,7 @@ async function getAllPosts(id, page) {
         FROM posts p
         JOIN users u ON p."userId" = u.id
         LEFT JOIN "rePosts" rp ON rp."postId" = p.id
-        LEFT JOIN users urp ON rp."userId" = u.id
+        LEFT JOIN users urp ON rp."userId" = urp.id
         WHERE p."userId" = $1
         ORDER BY id DESC
         LIMIT 10

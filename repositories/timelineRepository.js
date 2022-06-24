@@ -94,7 +94,7 @@ async function getFollowsByUserId(userId, page) {
       JOIN users u ON p."userId" = u.id
       JOIN  follows f ON  p."userId" = f."followId"
       LEFT JOIN "rePosts" rp ON rp."postId" = p.id
-      LEFT JOIN users urp ON rp."userId" = u.id
+      LEFT JOIN users urp ON rp."userId" = urp.id
     WHERE f."userId" = $1
     ORDER BY id DESC
     LIMIT 10
