@@ -69,7 +69,6 @@ export async function getAllPostsByFollows(req, res) {
   let posts = [];
   const { user: { id: userId } } = res.locals;
   const { page } = req.query;
-  console.log(page)
 
   try {
     const { rows: allFollows } = await followsRepository.getFollowsByUserId(userId);

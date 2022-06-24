@@ -13,7 +13,7 @@ async function getByHashtag(hashtag, page) {
       JOIN "posts" p ON ph."postId" = p.id
       JOIN "users" u ON p."userId" = u.id
       LEFT JOIN "rePosts" rp ON rp."postId" = p.id
-      LEFT JOIN users urp ON rp."userId" = u.id
+      LEFT JOIN users urp ON rp."userId" = urp.id
     WHERE 
       h.name=$1 
     ORDER BY p.id DESC
