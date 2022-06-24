@@ -72,7 +72,7 @@ async function searchAllPosts() {
       posts p
       JOIN users u ON p."userId" = u.id
     ORDER BY p.id DESC
-    LIMIT 10`
+    LIMIT 20`
   );
   return result;
 };
@@ -85,13 +85,14 @@ async function getFollowsByUserId(userId, page) {
   return await db.query(
     `SELECT 
       f."followId", 
-      p.id, p.link, p.description, u.name, u.image, p."userId",
-      rp."userId" as "rePostUser"
+      urp.name as "repostUser",
+      p.id, p."userId", u.name, p.link, p.description, u.image
     FROM 
       posts p
       JOIN users u ON p."userId" = u.id
       JOIN  follows f ON  p."userId" = f."followId"
-      LEFT JOIN "rePosts" rp ON p.id = rp."postId"
+      LEFT JOIN "rePosts" rp ON rp."postId" = p.id
+      LEFT JOIN users urp ON rp."repostUserId" = u.id
     WHERE f."userId" = $1
     ORDER BY id DESC
     LIMIT 10
@@ -115,7 +116,6 @@ async function getNewPosts(userId, time) {
     `
     , [userId, time]);
 }
-
 
 export const timelineRepository = {
   insertPost,
