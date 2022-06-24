@@ -72,7 +72,7 @@ async function searchAllPosts() {
       posts p
       JOIN users u ON p."userId" = u.id
     ORDER BY p.id DESC
-    LIMIT 20`
+    LIMIT 10`
   );
   return result;
 };
@@ -81,7 +81,7 @@ async function getMetada(link) {
   return urlMetadata(link, { timeout: 1000 });
 };
 
-async function getFollowsByUserId(userId) {
+async function getFollowsByUserId(userId, page) {
   return await db.query(
     `SELECT 
       f."followId", 
@@ -94,8 +94,10 @@ async function getFollowsByUserId(userId) {
       LEFT JOIN "rePosts" rp ON p.id = rp."postId"
     WHERE f."userId" = $1
     ORDER BY id DESC
+    LIMIT 10
+    OFFSET $2
     `
-    , [userId]);
+    , [userId, page * 10]);
 };
 
 async function getNewPosts(userId, time) {

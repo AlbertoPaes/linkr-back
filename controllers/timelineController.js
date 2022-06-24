@@ -68,11 +68,13 @@ export async function getAllPosts(req, res) {
 export async function getAllPostsByFollows(req, res) {
   let posts = [];
   const { user: { id: userId } } = res.locals;
+  const {page} = req.query;
+  console.log("🚀 ~ file: timelineController.js ~ line 72 ~ getAllPostsByFollows ~ page", page)
 
   try {
     const { rows: allFollows } = await followsRepository.getFollowsByUserId(userId);
     if (allFollows.length === 0) return res.status(200).send(false)
-    const { rows: allPosts } = await timelineRepository.getFollowsByUserId(userId);
+    const { rows: allPosts } = await timelineRepository.getFollowsByUserId(userId,page*1);
 
     for (let post of allPosts) {
       try {
