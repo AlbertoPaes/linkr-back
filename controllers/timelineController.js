@@ -68,13 +68,13 @@ export async function getAllPosts(req, res) {
 export async function getAllPostsByFollows(req, res) {
   let posts = [];
   const { user: { id: userId } } = res.locals;
-  const {page} = req.query;
-  console.log("🚀 ~ file: timelineController.js ~ line 72 ~ getAllPostsByFollows ~ page", page)
+  const { page } = req.query;
+  console.log(page)
 
   try {
     const { rows: allFollows } = await followsRepository.getFollowsByUserId(userId);
     if (allFollows.length === 0) return res.status(200).send(false)
-    const { rows: allPosts } = await timelineRepository.getFollowsByUserId(userId,page*1);
+    const { rows: allPosts } = await timelineRepository.getFollowsByUserId(userId, page * 1);
 
     for (let post of allPosts) {
       try {
@@ -96,11 +96,11 @@ export async function getAllPostsByFollows(req, res) {
 };
 
 export async function getNewPostsByFollows(req, res) {
-  const { time } = req.body;
   const { user: { id: userId } } = res.locals;
+  const { time } = req.body;
 
   try {
-    const { rows: newPosts } = await timelineRepository.getNewPosts(userId, time);
+    const { rows: newPosts } = await timelineRepository.getNewPosts(userId, time)
     res.send(newPosts)
   } catch (e) {
     console.log(chalk.red.bold(e));
