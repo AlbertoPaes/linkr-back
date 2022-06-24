@@ -85,18 +85,20 @@ async function getFollowsByUserId(userId) {
   return await db.query(
     `SELECT 
       f."followId", 
-      p.id, p.link, p.description, u.name, u.image, p."userId"
+      p.id, p.link, p.description, u.name, u.image, p."userId",
+      rp."userId" as "rePostUser"
     FROM 
       posts p
       JOIN users u ON p."userId" = u.id
       JOIN  follows f ON  p."userId" = f."followId"
+      LEFT JOIN "rePosts" rp ON p.id = rp."postId"
     WHERE f."userId" = $1
     ORDER BY id DESC
     `
     , [userId]);
 };
 
-async function getNewPosts(userId, time){
+async function getNewPosts(userId, time) {
 
   return await db.query(
     `SELECT 

@@ -84,8 +84,8 @@ export async function getAllPostsByFollows(req, res) {
         const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
         posts.push({ ...post, urlTitle, urlImage, urlDescription });
       }
-
     }
+
     res.status(200).send(posts);
   } catch (e) {
     console.log(chalk.red.bold(e));
