@@ -17,6 +17,7 @@ CREATE TABLE sessions (
 CREATE TABLE posts (
   id serial PRIMARY KEY,
   "userId" integer NOT NULL REFERENCES "users"("id"),
+  "rePostUser" integer,
   link text NOT NULL,
   description varChar(160),
   "createdAt" timestamp DEFAULT NOW()
@@ -50,10 +51,10 @@ CREATE TABLE "postHashtag" (
 );
 
 CREATE TABLE follows (
-    id serial PRIMARY KEY,
-    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
-    "followId" INTEGER NOT NULL REFERENCES "users"("id"),
-    "createdAt" timestamp DEFAULT NOW()
+  id serial PRIMARY KEY,
+  "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+  "followId" INTEGER NOT NULL REFERENCES "users"("id"),
+  "createdAt" timestamp DEFAULT NOW()
 );
 
 CREATE TABLE "rePosts" (

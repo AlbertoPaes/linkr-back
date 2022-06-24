@@ -8,11 +8,16 @@ async function countRePost(postId) {
   `, [postId]);
 }
 
-async function insertRePost(postId,userId) {
-  return db.query(`
+async function insertRePost(postId, rePostUser, userId, link, description) {
+  db.query(`
     INSERT INTO "rePosts" ("postId", "userId")
     VALUES ($1,$2)
-  `, [postId, userId]);
+  `, [postId, rePostUser])
+
+  db.query(`
+    INSERT INTO "posts" ("rePostUser", "userId", link, description)
+    VALUES ($1,$2,$3,$4)
+  `, [rePostUser, userId, link, description]);
 }
 
 

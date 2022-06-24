@@ -11,33 +11,36 @@ const getRePosts = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
-  } 
+  }
 }
 
-const makeRePost = async (req,res) => {
+const makeRePost = async (req, res) => {
   const { postId } = req.params;
   const { user } = res.locals;
 
   try {
     const postExist = await likeRepository.checkPostExist(postId);
-    if(postExist.rowCount === 0){
+    if (postExist.rowCount === 0) {
       res.sendStatus(404);
       return;
     }
 
-    if(postExist.rows[0].userId === user.id){
+    if (postExist.rows[0].userId === user.id) {
       res.status(403).send("It's not possible to repost a post you created");
       return;
     }
 
-    await rePostRepository.insertRePost(postId,user.id);
+    const post = postExist.rows[0];
+    const { userId, link, description } = post;
+
+    await rePostRepository.insertRePost(postId, user.id, userId, link, description);
     res.sendStatus(201);
 
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
-  } 
+  }
 }
 
-const modulesRePostController = { getRePosts,makeRePost };
+const modulesRePostController = { getRePosts, makeRePost };
 export default modulesRePostController;

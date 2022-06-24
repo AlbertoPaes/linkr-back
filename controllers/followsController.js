@@ -11,7 +11,7 @@ export async function getFollows(req, res) {
         const checkUser = await followsRepository.getFollowsByUserId(userId);
         if (checkUser.rowCount === 0) return res.status(200).send(false);
 
-        const checkFollow = await followsRepository.checkFollow(followId);
+        const checkFollow = await followsRepository.checkFollow(userId, followId);
 
         if (checkFollow.rowCount === 0) return res.status(200).send(false);
 
@@ -81,7 +81,7 @@ export async function deleteFollow(req, res) {
     const { userId, followId } = req.params;
 
     try {
-        await followsRepository.removeFollow(userId, followId);
+        await followsRepository.removeFollow(parseInt(userId), parseInt(followId));
         res.sendStatus(200);
     }
     catch (error) {

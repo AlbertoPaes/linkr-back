@@ -86,17 +86,15 @@ async function getFollowsByUserId(userId, page) {
     `SELECT 
       f."followId", 
       urp.name as "repostUserName",
-      rp."userId" as "repostUserId",
-      p.id, p."userId", u.name, p.link, p.description, 
+      p.id, p."rePostUser" as "repostUserId", p."userId", u.name, p.link, p.description, 
       u.image
     FROM 
       posts p
       JOIN users u ON p."userId" = u.id
       JOIN  follows f ON  p."userId" = f."followId"
-      LEFT JOIN "rePosts" rp ON rp."postId" = p.id
-      LEFT JOIN users urp ON rp."userId" = urp.id
+      LEFT JOIN users urp ON p."rePostUser" = urp.id
     WHERE f."userId" = $1
-    ORDER BY id DESC
+    ORDER BY p."createdAt" DESC
     LIMIT 10
     OFFSET $2
     `
@@ -107,14 +105,16 @@ async function getNewPosts(userId, time) {
 
   return await db.query(
     `SELECT 
-      f."followId", 
-      p.id, p.link, p.description, u.name, u.image, p."userId"
-    FROM 
-      posts p
-      JOIN users u ON p."userId" = u.id
-      LEFT JOIN  follows f ON  p."userId" = f."followId" AND p."userId" != $1
+    f."followId", 
+    urp.name as "repostUserName",
+    p.id, p."rePostUser" as "repostUserId", p."userId", u.name, p.link, p.description, 
+    u.image
+  FROM 
+    posts p
+    JOIN users u ON p."userId" = u.id
+    JOIN  follows f ON  p."userId" = f."followId"
+    LEFT JOIN users urp ON p."rePostUser" = urp.id
     WHERE f."userId" = $1 AND p."createdAt" > $2
-    ORDER BY id DESC
     `
     , [userId, time]);
 }
