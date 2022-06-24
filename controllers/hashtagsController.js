@@ -5,14 +5,21 @@ import { hashtagsRepository } from "../repositories/hashtagsRepository.js";
 export async function getHashtagPosts(req, res) {
   const { hashtag } = req.params;
   const hashtagPosts = []
+  const { page } = req.query;
 
   try {
-    const { rows: getByHashtag } = await hashtagsRepository.getByHashtag(hashtag);
+    const { rows: getByHashtag } = await hashtagsRepository.getByHashtag(hashtag, page * 1);
 
     for (let post of getByHashtag) {
-      const urlMeta = await hashtagsRepository.getMetadata(post.link);
-      const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
-      hashtagPosts.push({ ...post, urlTitle, urlImage, urlDescription });
+      try {
+        const urlMeta = await hashtagsRepository.getMetadata(post.link);
+        const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+        hashtagPosts.push({ ...post, urlTitle, urlImage, urlDescription });
+      } catch (e) {
+        const urlMeta = { title: "", image: "", description: "" }
+        const { title: urlTitle, image: urlImage, description: urlDescription } = urlMeta;
+        hashtagPosts.push({ ...post, urlTitle, urlImage, urlDescription });
+      }
     }
 
     res.status(200).send(hashtagPosts);

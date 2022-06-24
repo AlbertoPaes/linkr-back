@@ -87,7 +87,8 @@ async function getFollowsByUserId(userId, page) {
       f."followId", 
       urp.name as "repostUserName",
       rp."userId" as "repostUserId",
-      p.id, p."userId", u.name, p.link, p.description, u.image
+      p.id, p."userId", u.name, p.link, p.description, 
+      u.image
     FROM 
       posts p
       JOIN users u ON p."userId" = u.id
